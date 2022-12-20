@@ -35,8 +35,13 @@ server <- function(input, output, session) {
   })
 
   observe({
-    updatePickerInput(session, inputId = "scripts", choices = unique(data_for_message()$scripts))
-    updatePickerInput(session, inputId = "version", choices = unique(data_for_message()$version))
+    updatePickerInput(session,
+                      inputId = "scripts",
+                      choices = unique(data_for_message()$scripts))
+
+    updatePickerInput(session,
+                      inputId = "version",
+                      choices = unique(data_for_message()$version))
   })
 
   output$table <- renderDT({
@@ -51,8 +56,13 @@ server <- function(input, output, session) {
                fill = which_cnd)) +
     geom_col() +
       labs(title = "Proportion of Conditions per Version",
-           x = "Version", y = "Count")
-  })
+           x = "Version",
+           y = "Frequency") +
+      guides(y = guide_axis(n.dodge = 2)) +
+      coord_flip()
+  },
+  height = 800,
+  res = 74*1.5)
 
   # Display message from "runs" column
   output$message <- renderDT({
